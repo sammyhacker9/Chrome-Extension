@@ -41,5 +41,14 @@ making it look stylish can be a cool extension.
  		console.log(d) 
   	}
   })}
+  function getmessage(){
+  	$.ajax({
+  		url: "192.54.222.4:8000",
+  		type: "POST",
+  		data: {"message": document.getElementById("settings").value},
+  		success: function(d,status,XHR){
+ 			console.log(d) 
+ 		}
+  	})
 </body>
 </html>
