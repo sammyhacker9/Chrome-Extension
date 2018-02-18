@@ -47,6 +47,24 @@ function clear_settings() {
 // Restore settings when the DOM loads
 document.addEventListener('DOMContentLoaded', restore_settings);
 // Save settings when the save button is clicked.
-document.getElementById('save').addEventListener('click', save_settings);
+document.getElementById('send').addEventListener('click', save_settings);
 // Clear settings when the clear button is clicked.
-document.getElementById('clear').addEventListener('click', clear_settings);
+function sendmessage(){$.ajax({
+  	url: "http://localhost:8000",
+  	type: "POST",
+  	data: {"message": document.getElementById("settings").value},
+  	success: function(d,status,XHR){
+ 		console.log(d) 
+  	}
+  })}
+  function getmessage(){
+  	$.ajax({
+  		url: "http://localhost:8000",
+  		type: "GET",
+  		success: function(d,status,XHR){
+ 			console.log(d) 
+ 		}
+  	})
+  }
+  getmessage()
+console.log("hello")
