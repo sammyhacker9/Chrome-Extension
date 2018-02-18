@@ -52,7 +52,7 @@ document.getElementById('send').addEventListener('click', sendmessage);
 function sendmessage(){$.ajax({
   	url: "http://localhost:8000",
   	type: "POST",
-  	data: {"message": document.getElementById("settings").value},
+  	data: JSON.stringify({"message": document.getElementById("settings").value}),
   	success: function(d,status,XHR){
  		console.log(d) 
   	}
