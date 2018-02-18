@@ -6,7 +6,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from optparse import OptionParser
 import json
 
-messages = []
+messages = ["hello world", "hi world"]
 
 class RequestHandler(BaseHTTPRequestHandler):
     
@@ -14,14 +14,19 @@ class RequestHandler(BaseHTTPRequestHandler):
         
         request_path = self.path
         
-        print("\n----- Request Start ----->\n")
+        print("\n----- Request hello Start ----->\n")
         print(request_path)
         print(self.headers)
         print("<----- Request End -----\n")
         
-        self.send_response(200)
+        self.send_response(200, "hello")
         
-        self.send_header("Set-Cookie", "foo=bar")
+        
+        
+        self.end_headers()
+        
+        self.wfile.write(json.dumps(messages).encode())
+        
         
     def do_POST(self):
         global messages
@@ -56,7 +61,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 def main():
     # port = 8080 #original port
     port = 8000 #new port
-    print('Listening on localhost:%s' % port)
+    print('Listening on localhost hello:%s' % port)
     server = HTTPServer(('', port), RequestHandler)
     server.serve_forever()
 
