@@ -6,7 +6,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from optparse import OptionParser
 import json
 
-messages = ["hello world", "hi world"]
+messages = []
 
 class RequestHandler(BaseHTTPRequestHandler):
     
@@ -52,7 +52,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         allmessages = json.dumps(messages)
         
         
-        self.send_response(200, allmessages)
+        self.send_response(200)
+        
+        self.end_headers()
+        
+        self.wfile.write(json.dumps(allmessages).encode())
     
     
     do_PUT = do_POST
