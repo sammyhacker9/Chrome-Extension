@@ -49,10 +49,14 @@ document.addEventListener('DOMContentLoaded', restore_settings);
 // Save settings when the save button is clicked.
 document.getElementById('send').addEventListener('click', sendmessage);
 // Clear settings when the clear button is clicked.
-function sendmessage(){$.ajax({
+function sendmessage(){
+
+	var content = JSON.stringify({"message": document.getElementById("settings").value});
+
+	$.ajax({
   	url: "http://localhost:8000",
   	type: "POST",
-  	data: JSON.stringify({"message": document.getElementById("settings").value}),
+  	data: content,
   	success: function(d,status,XHR){
  		console.log(d) 
   	}
@@ -62,9 +66,18 @@ function sendmessage(){$.ajax({
   		url: "http://localhost:8000",
   		type: "GET",
   		success: function(d,status,XHR){
- 			console.log(d) 
+ 			document.getElementById("messages").innerHTML = d
+
+
  		}
+  	
   	})
   }
-  getmessage()
-console.log("hello")
+
+	getmessage();
+  	setInterval(function() {getmessage()}, 2000);
+
+
+
+  
+	
