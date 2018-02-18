@@ -2,8 +2,11 @@
 # Reflects the requests from HTTP methods GET, POST, PUT, and DELETE
 # Written by Nathan Hamiel (2010)
 
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from optparse import OptionParser
+import json
+
+messages = []
 
 class RequestHandler(BaseHTTPRequestHandler):
     
@@ -17,10 +20,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         print("<----- Request End -----\n")
         
         self.send_response(200)
+        
         self.send_header("Set-Cookie", "foo=bar")
         
     def do_POST(self):
-        
+        global messages
         request_path = self.path
         
         print("\n----- Request Start ----->\n")
@@ -31,16 +35,27 @@ class RequestHandler(BaseHTTPRequestHandler):
         length = int(content_length[0]) if content_length else 0
         
         print(request_headers)
-        print(self.rfile.read(length))
+        payload = (self.rfile.read(length))
+        data = json.loads(payload)["message"]
         print("<----- Request End -----\n")
         
-        self.send_response(200)
+        
+        messages.append(data)
+        
+        
+        
+        allmessages = json.dumps(messages)
+        
+        
+        self.send_response(200, allmessages)
+    
     
     do_PUT = do_POST
     do_DELETE = do_GET
         
 def main():
-    port = 8080
+    # port = 8080 #original port
+    port = 8000 #new port
     print('Listening on localhost:%s' % port)
     server = HTTPServer(('', port), RequestHandler)
     server.serve_forever()
