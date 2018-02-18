@@ -47,7 +47,7 @@ function clear_settings() {
 // Restore settings when the DOM loads
 document.addEventListener('DOMContentLoaded', restore_settings);
 // Save settings when the save button is clicked.
-document.getElementById('send').addEventListener('click', save_settings);
+document.getElementById('send').addEventListener('click', sendmessage);
 // Clear settings when the clear button is clicked.
 function sendmessage(){$.ajax({
   	url: "http://localhost:8000",
