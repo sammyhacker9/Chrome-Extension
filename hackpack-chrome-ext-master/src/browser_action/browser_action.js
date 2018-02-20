@@ -51,7 +51,23 @@ document.getElementById('send').addEventListener('click', sendmessage);
 // Clear settings when the clear button is clicked.
 function sendmessage(){
 
-	var content = JSON.stringify({"message": document.getElementById("settings").value});
+	var originalString = document.getElementById("settings").value;
+
+	var lenthOfString = originalString.length;
+
+	var extraCharacters = "";
+
+	for (i = 0; i < 140 - lenthOfString; i++) { //Makes a string with 140 - lenthOfString ~ characters
+		extraCharacters += "~"
+	}
+
+	var newString = originalString + extraCharacters;
+
+
+	var content = JSON.stringify({"message": newString}); //The new message to send (has a length of 140 + 14 characters)
+
+
+	//var content = JSON.stringify({"message": document.getElementById("settings").value}); //ORIGINAL MESSAGE TO SEND
 
 	$.ajax({
   	url: "http://localhost:8000",
@@ -69,7 +85,8 @@ function sendmessage(){
   			var u = d.slice(1, -1) //Take off the brackets
   			var q = u.replace(/['"]+/g, '') //takes off the quotation marks
   			var r = q.split(",").join("<br />") //Break the array at commas
- 			document.getElementById("messages").innerHTML = r //originally d
+  			var f = r.replace(/[~]+/g, '') //gets rid of the ~ character
+ 			document.getElementById("messages").innerHTML = f //originally d
 
 
  		}
