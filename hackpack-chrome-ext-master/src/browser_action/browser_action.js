@@ -66,7 +66,10 @@ function sendmessage(){
   		url: "http://localhost:8000",
   		type: "GET",
   		success: function(d,status,XHR){
- 			document.getElementById("messages").innerHTML = d
+  			var u = d.slice(1, -1) //Take off the brackets
+  			var q = u.replace(/['"]+/g, '') //takes off the quotation marks
+  			var r = q.split(",").join("<br />") //Break the array at commas
+ 			document.getElementById("messages").innerHTML = r //originally d
 
 
  		}
