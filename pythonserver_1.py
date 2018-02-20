@@ -20,12 +20,14 @@ class RequestHandler(BaseHTTPRequestHandler):
         print("<----- Request End -----\n")
         
         self.send_response(200, "hello")
-        msg = json.dumps(messages).encode()
-        self.send_header("Content-Length", len(msg))
-
+        
+        
+        
         self.end_headers()
         
-        self.wfile.write(msg)
+        self.wfile.write(json.dumps(messages).encode())
+        
+        
         
     def do_POST(self):
         global messages
@@ -35,26 +37,36 @@ class RequestHandler(BaseHTTPRequestHandler):
         print(request_path)
         
         request_headers = self.headers
-        content_length = request_headers.get('content-length')
-        print(content_length)
-        length = int(content_length[0]) if content_length else 0
+        #content_length = request_headers.getheaders('content-length')
+        #length = int(content_length[0]) if content_length else 0
         
         #print(request_headers)
-        payload = (self.rfile.readline())
+        
+        
+        #payload = (self.rfile.read(1000)) #Recently commented out. If message is  less than 986 (1000-14) characters, 'pending' is caused
+        payload = (self.rfile.read(154)) #Messages cannot exceed 140 characters
+        
+        
+        print("Got here") #Checks whether the code has run to this point
+        
+        print(payload)
         data = json.loads(payload)["message"]
+        
+        
         print("<----- Request End -----\n")
         
         
         messages.append(data)
-                
-        self.send_response(200, "OK")
-        msg = b"ok"
-        self.send_header("Content-Length", len(msg))        
+        
+        
+        allmessages = json.dumps(messages)
+        
+        
+        self.send_response(200)
         
         self.end_headers()
-
         
-        self.wfile.write(msg)
+        #self.wfile.write(json.dumps(allmessages.encode()))
     
     
     #do_PUT = do_POST
@@ -66,6 +78,7 @@ def main():
     print('Listening on localhost hello:%s' % port)
     server = HTTPServer(('', port), RequestHandler)
     server.serve_forever()
+    
 
         
 if __name__ == "__main__":
