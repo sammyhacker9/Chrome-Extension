@@ -102,7 +102,7 @@ function sendmessage(){
 
 function clearbox() //supposed to clear textbox after user hits send
 {
-	document.getElementById('textarea').value = " ";
+	document.getElementById("settings").value = " ";
 }
 
   
