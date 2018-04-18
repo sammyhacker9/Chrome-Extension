@@ -78,7 +78,7 @@ function sendmessage(){
 
 	$.ajax({
   	//url: "http://localhost:8000",
-  	url: "http://0b325e5b.ngrok.io/", //Enter the url of the localhost or the tunnel's url
+  	url: "http://949d4091.ngrok.io/", //Enter the url of the localhost or the tunnel's url
   	type: "POST",
   	data: content,
   	success: function(d,status,XHR){
@@ -88,7 +88,7 @@ function sendmessage(){
   function getmessage(){
   	$.ajax({
   		//url: "http://localhost:8000",
-  		url: "http://0b325e5b.ngrok.io/", //Enter the url of the localhost or the tunnel's url
+  		url: "http://949d4091.ngrok.io/", //Enter the url of the localhost or the tunnel's url
   		type: "GET",
   		success: function(d,status,XHR){
   			var u = d.slice(1, -1) //Take off the brackets
